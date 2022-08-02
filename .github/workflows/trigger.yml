@@ -1,0 +1,25 @@
+name: Build changed components and pipelines
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - "master"
+    paths:
+      - "src"
+
+jobs:
+  build_components:
+    strategy:
+      matrix:
+        name: [ "c1", "c2", "c3" ]
+    uses: ./.github/workflows/build_component.yml
+    with:
+      component_name: ${{ matrix.name }}
+  build_pipelines:
+    strategy:
+      matrix:
+        name: [ "p1", "p2" ]
+    uses: ./.github/workflows/build_pipeline.yml
+    with:
+      pipeline_name: ${{ matrix.name }}
