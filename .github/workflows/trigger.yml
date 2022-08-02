@@ -9,7 +9,13 @@ on:
       - "src/**"
 
 jobs:
+  git_diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get diff
+        run: git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
   build_components:
+    needs: git_diff
     strategy:
       matrix:
         name: [ "c1", "c2", "c3" ]
