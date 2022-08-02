@@ -13,7 +13,7 @@ jobs:
   build_c2:
     uses: ./.github/workflows/build_component.yml
     with:
-      pipeline_name: "c2"
+      component_name: "c2"
   build_p2:
     uses: ./.github/workflows/build_pipeline.yml
     with:
