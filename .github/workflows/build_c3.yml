@@ -13,4 +13,4 @@ jobs:
   build:
     uses: ./.github/workflows/build_component.yml
     with:
-      pipeline_name: "c3"
+      component_name: "c3"
