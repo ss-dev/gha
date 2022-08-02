@@ -22,6 +22,7 @@ jobs:
       - name: Build the component
         run: python src/runner.py build component ${{ matrix.name }}
   build_pipelines:
+    needs: build_components
     strategy:
       matrix:
         name: [ "p1", "p2" ]
