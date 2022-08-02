@@ -13,13 +13,23 @@ jobs:
     strategy:
       matrix:
         name: [ "c1", "c2", "c3" ]
-    uses: ./.github/workflows/build_component.yml
-    with:
-      component_name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update PYTHONPATH
+        run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
+      - name: Build the component
+        run: python src/runner.py build component ${{ matrix.name }}
   build_pipelines:
     strategy:
       matrix:
         name: [ "p1", "p2" ]
-    uses: ./.github/workflows/build_pipeline.yml
-    with:
-      pipeline_name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update PYTHONPATH
+        run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
+      - name: Build the pipeline
+        run: python src/runner.py build pipeline ${{ inputs.pipeline_name }}
