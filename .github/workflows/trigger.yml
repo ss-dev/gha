@@ -8,6 +8,9 @@ on:
     paths:
       - "src/**"
 
+env:
+  COMPONENT_LIST: []
+
 jobs:
   git_diff:
     runs-on: ubuntu-latest
@@ -36,7 +39,7 @@ jobs:
     needs: get_component_list
     strategy:
       matrix:
-        name: ${{ COMPONENT_LIST }}
+        name: ${{ env.COMPONENT_LIST }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
