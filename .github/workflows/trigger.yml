@@ -8,9 +8,6 @@ on:
     paths:
       - "src/**"
 
-env:
-  COMPONENT_LIST: []
-
 jobs:
   git_diff:
     runs-on: ubuntu-latest
@@ -28,18 +25,22 @@ jobs:
   get_component_list:
     needs: git_diff
     runs-on: ubuntu-latest
+    outputs:
+      names: ${{ steps.getter.outputs.names }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Update PYTHONPATH
         run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
       - name: Get list
-        run: echo "COMPONENT_LIST=$(echo $(python src/list_components.py ${GIT_DIFF}))" >> $GITHUB_ENV
+        id: getter
+#        run: echo "COMPONENT_LIST=$(echo $(python src/list_components.py ${GIT_DIFF}))" >> $GITHUB_ENV
+        run: echo "::set-output name=names::$(echo $(python src/list_component.py ${GIT_DIFF}))"
   build_components:
     needs: get_component_list
     strategy:
       matrix:
-        name: ${{ env.COMPONENT_LIST }}
+        name: ${{ needs.get_component_list.outputs.names }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
