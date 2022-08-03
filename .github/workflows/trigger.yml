@@ -40,7 +40,7 @@ jobs:
     needs: get_component_list
     strategy:
       matrix:
-        name: ${{ needs.get_component_list.outputs.names }}
+        name: ${{ fromJson(needs.get_component_list.outputs.names) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
