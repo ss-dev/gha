@@ -34,7 +34,6 @@ jobs:
         run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
       - name: Get list
         id: getter
-#        run: echo "COMPONENT_LIST=$(echo $(python src/list_components.py ${GIT_DIFF}))" >> $GITHUB_ENV
         run: echo "::set-output name=names::$(echo $(python src/list_components.py ${GIT_DIFF}))"
   build_components:
     needs: get_component_list
