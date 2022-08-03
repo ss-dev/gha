@@ -1,0 +1,17 @@
+name: "Build component"
+description: "Build component by the name specified in input parameters"
+inputs:
+  component_name:
+    description: "Component name"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Update PYTHONPATH
+      run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
+      shell: bash
+    - name: Build component
+      run: python src/runner.py build component ${{ inputs.component_name }}
+      shell: bash
