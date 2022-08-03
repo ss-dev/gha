@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build component
-        uses: .github/actions/build_component
+        uses: ./.github/actions/build_component
         with:
           component_name: ${{ matrix.name }}
   build_pipelines:
@@ -37,6 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build pipeline
-        uses: .github/actions/build_pipeline
+        uses: ./.github/actions/build_pipeline
         with:
           component_name: ${{ matrix.name }}
