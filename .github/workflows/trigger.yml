@@ -18,6 +18,10 @@ jobs:
           fetch-depth: 0
       - name: Get diff
         run: git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
+      - name: Save diff to env
+        run: echo "GIT_DIFF=$(git diff --name-only origin/master origin/${GITHUB_HEAD_REF})" >> $GITHUB_ENV
+      - name: Check env
+        run: echo $GIT_DIFF
   build_components:
     needs: git_diff
     strategy:
