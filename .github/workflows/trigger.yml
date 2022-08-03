@@ -18,15 +18,34 @@ jobs:
           fetch-depth: 0
       - name: Get diff
         run: git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
-  build_components:
+      - name: Save diff to env
+        run: echo "GIT_DIFF=$(echo $(git diff --name-only origin/master origin/${GITHUB_HEAD_REF}))" >> $GITHUB_ENV
+      - name: Check env
+        run: echo $GIT_DIFF
+  get_component_list:
     needs: git_diff
+    runs-on: ubuntu-latest
+    outputs:
+      names: ${{ steps.getter.outputs.names }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update PYTHONPATH
+        run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
+      - name: Get list
+        id: getter
+        run: echo "::set-output name=names::$(echo $(python src/list_components.py ${GIT_DIFF}))"
+  build_components:
+    needs: get_component_list
     strategy:
       matrix:
-        name: [ "c1", "c2", "c3" ]
+        name: ${{ fromJson(needs.get_component_list.outputs.names) }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Build component
-        uses: .github/actions/build_component
+        uses: ./.github/actions/build_component
         with:
           component_name: ${{ matrix.name }}
   build_pipelines:
@@ -36,7 +55,9 @@ jobs:
         name: [ "p1", "p2" ]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Build pipeline
-        uses: .github/actions/build_pipeline
+        uses: ./.github/actions/build_pipeline
         with:
           component_name: ${{ matrix.name }}
