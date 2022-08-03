@@ -19,7 +19,7 @@ jobs:
       - name: Get diff
         run: git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
       - name: Save diff to env
-        run: echo "GIT_DIFF=$(echo git diff --name-only origin/master origin/${GITHUB_HEAD_REF})" >> $GITHUB_ENV
+        run: echo "GIT_DIFF=$(echo (git diff --name-only origin/master origin/${GITHUB_HEAD_REF}))" >> $GITHUB_ENV
       - name: Check env
         run: echo $GIT_DIFF
   build_components:
