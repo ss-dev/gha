@@ -35,7 +35,7 @@ jobs:
       - name: Get list
         id: getter
 #        run: echo "COMPONENT_LIST=$(echo $(python src/list_components.py ${GIT_DIFF}))" >> $GITHUB_ENV
-        run: echo "::set-output name=names::$(echo $(python src/list_component.py ${GIT_DIFF}))"
+        run: echo "::set-output name=names::$(echo $(python src/list_components.py ${GIT_DIFF}))"
   build_components:
     needs: get_component_list
     strategy:
