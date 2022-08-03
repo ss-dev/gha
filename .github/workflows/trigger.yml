@@ -25,12 +25,10 @@ jobs:
         name: [ "c1", "c2", "c3" ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Update PYTHONPATH
-        run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
-      - name: Build the component
-        run: python src/runner.py build component ${{ matrix.name }}
+      - name: Build component
+        uses: ./.github/actions/build_component
+        with:
+          component_name: ${{ matrix.name }}
   build_pipelines:
     needs: build_components
     strategy:
@@ -38,9 +36,7 @@ jobs:
         name: [ "p1", "p2" ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Update PYTHONPATH
-        run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
-      - name: Build the pipeline
-        run: python src/runner.py build pipeline ${{ inputs.pipeline_name }}
+      - name: Build pipeline
+        uses: ./.github/actions/build_pipeline
+        with:
+          component_name: ${{ matrix.name }}

@@ -1,0 +1,17 @@
+name: "Build pipeline"
+description: "Build pipeline by the name specified in input parameters"
+inputs:
+  pipeline_name:
+    description: "Pipeline name"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Update PYTHONPATH
+      run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
+      shell: bash
+    - name: Build pipeline
+      run: python src/runner.py build pipeline ${{ inputs.pipeline_name }}
+      shell: bash
