@@ -15,7 +15,7 @@ jobs:
   build_components:
     strategy:
       matrix:
-        name: ${{ fromJson(env.NAMES) }}
+        name: ${{ fromJson(NAMES) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
