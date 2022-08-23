@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Get list
         id: getter
-        run: echo "::set-output name=names::'[]'"
+        run: echo "::set-output name=names::[]"
   build_components:
     needs: get_component_list
     strategy:
