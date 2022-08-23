@@ -1,0 +1,32 @@
+name: Empty matrix test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - "master"
+    paths:
+      - "src/**"
+
+env:
+  NAMES: "[]"
+
+jobs:
+  build_components:
+    strategy:
+      matrix:
+        name: ${{ fromJson(env.NAMES) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build component
+        uses: ./.github/actions/build_component
+        with:
+          component_name: ${{ matrix.name }}
+  post_actions:
+    needs: build_components
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug
+        run: echo Empty matrix success
