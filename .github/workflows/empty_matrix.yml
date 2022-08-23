@@ -8,14 +8,20 @@ on:
     paths:
       - "src/**"
 
-env:
-  NAMES: "[]"
-
 jobs:
+  get_component_list:
+    runs-on: ubuntu-latest
+    outputs:
+      names: ${{ steps.getter.outputs.names }}
+    steps:
+      - name: Get list
+        id: getter
+        run: echo "::set-output name=names::'[]'"
   build_components:
+    needs: get_component_list
     strategy:
       matrix:
-        name: ${{ fromJson(NAMES) }}
+        name: ${{ fromJson(needs.get_component_list.outputs.names) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
