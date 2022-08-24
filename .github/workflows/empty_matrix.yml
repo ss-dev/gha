@@ -17,15 +17,16 @@ jobs:
       - name: Get list
         id: getter
         run: |
-          echo "COMPONENT_NAMES=$(echo '[]')" >> $GITHUB_ENV
-          if [[ "$COMPONENT_NAMES" == "[]" ]]
-            echo "COMPONENT_NAMES=$(echo '[\"\"]')" >> $GITHUB_ENV
+          $NAMES = "[]"
+          if [[ "$NAMES" == "[]" ]]
+            $NAMES = "['']"
           fi
+          echo "::set-output name=names::$NAMES"
   build_components:
     needs: get_component_list
     strategy:
       matrix:
-        name: ${{ fromJson($COMPONENT_NAMES) }}
+        name: ${{ fromJson(needs.get_component_list.outputs.names) }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
