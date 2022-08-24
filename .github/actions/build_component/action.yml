@@ -7,15 +7,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Check input
-      if: inputs.component_name != ''
-      run: echo "There is a component name"
-      shell: bash
     - name: Checkout
+      if: inputs.component_name != ''
       uses: actions/checkout@v3
     - name: Update PYTHONPATH
+      if: inputs.component_name != ''
       run: echo "PYTHONPATH=/home/runner/work/gha/gha" >> $GITHUB_ENV
       shell: bash
     - name: Build component
+      if: inputs.component_name != ''
       run: python src/runner.py build component ${{ inputs.component_name }}
       shell: bash
