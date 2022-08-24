@@ -17,9 +17,9 @@ jobs:
       - name: Get list
         id: getter
         run: |
-          $NAMES = "[]"
-          if [[ "$NAMES" == "[]" ]]
-            $NAMES = "['']"
+          $NAMES="[]"
+          if [[ "$NAMES" == "[]" ]]; then
+            $NAMES="['']"
           fi
           echo "::set-output name=names::$NAMES"
   build_components:
