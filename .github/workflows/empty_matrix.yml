@@ -9,7 +9,21 @@ on:
       - "src/**"
 
 jobs:
+  git_diff:
+    runs-on: ubuntu-latest
+    outputs:
+      diff: ${{ steps.getter.outputs.diff }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get git diff
+        run: |
+          GIT_DIFF="$(echo $(git diff --name-only origin/main origin/${GITHUB_HEAD_REF}))"
+          echo "::set-output name=diff::$GIT_DIFF"
   get_component_list:
+    needs: git_diff
     runs-on: ubuntu-latest
     outputs:
       names: ${{ steps.getter.outputs.names }}
@@ -21,7 +35,8 @@ jobs:
       - name: Get list
         id: getter
         run: |
-          NAMES="$(python src/empty_list.py)"
+          echo "${{ needs.git_diff.outputs.diff }}"
+          NAMES="$(python src/empty_list.py --paths='${{ needs.git_diff.outputs.diff }}')"
           if [[ "$NAMES" == "[]" ]]; then
             NAMES="['']"
           fi
