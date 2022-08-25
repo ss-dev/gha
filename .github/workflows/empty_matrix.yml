@@ -21,7 +21,7 @@ jobs:
       - name: Get list
         id: getter
         run: |
-          NAMES="$(python src/empty_list.py ${GIT_DIFF})"
+          NAMES="$(python src/empty_list.py)"
           if [[ "$NAMES" == "[]" ]]; then
             NAMES="['']"
           fi
