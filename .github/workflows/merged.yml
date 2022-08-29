@@ -34,6 +34,4 @@ jobs:
           echo "GITHUB_SHA=${GITHUB_SHA}"
       - name: Get diff
         run: |
-          git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
-          git diff --name-only origin/master origin/${GITHUB_BASE_REF}
           git diff --name-only ${GITHUB_SHA}^ ${GITHUB_SHA}
