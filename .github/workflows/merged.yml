@@ -30,5 +30,10 @@ jobs:
           echo "GITHUB_HEAD_REF=${GITHUB_HEAD_REF}"
           echo "GITHUB_REF=${GITHUB_REF}"
           echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
+          echo "GITHUB_BASE_REF=${GITHUB_BASE_REF}"
+          echo "GITHUB_SHA=${GITHUB_SHA}"
       - name: Get diff
-        run: git diff --name-only origin/master origin/${GITHUB_REF}
+        run: |
+          git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
+          git diff --name-only origin/master origin/${GITHUB_BASE_REF}
+          git diff --name-only origin/master origin/${GITHUB_SHA}
