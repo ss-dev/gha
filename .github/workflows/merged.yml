@@ -25,5 +25,10 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
+      - name: Debug
+        run: |
+          echo "GITHUB_HEAD_REF=${GITHUB_HEAD_REF}"
+          echo "GITHUB_REF=${GITHUB_REF}"
+          echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
       - name: Get diff
         run: git diff --name-only origin/master origin/${GITHUB_REF}
