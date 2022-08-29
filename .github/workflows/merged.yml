@@ -26,4 +26,4 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
       - name: Get diff
-        run: git diff --name-only origin/master origin/${GITHUB_HEAD_REF}
+        run: git diff --name-only origin/master origin/${GITHUB_REF}
